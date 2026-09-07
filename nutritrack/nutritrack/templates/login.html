@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Log in — NutriTrack{% endblock %}
+{% block content %}
+<section class="auth-panel">
+  <h1 class="panel-title">Log in</h1>
+  <p class="panel-sub">Enter your account to build today's targets.</p>
+
+  <form method="POST" class="stack-form">
+    <label class="field">
+      <span>Username</span>
+      <input type="text" name="username" autocomplete="username" required autofocus>
+    </label>
+    <label class="field">
+      <span>Password</span>
+      <input type="password" name="password" autocomplete="current-password" required>
+    </label>
+    <button type="submit" class="btn-primary">Log in</button>
+  </form>
+
+  <p class="switch-line">No account yet? <a href="{{ url_for('register') }}">Register</a></p>
+</section>
+{% endblock %}

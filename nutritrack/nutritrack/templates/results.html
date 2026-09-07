@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %}Your plan — NutriTrack{% endblock %}
+{% block content %}
+{% set d = result.diet %}
+{% set w = result.workout %}
+{% set inp = result.inputs %}
+
+<section class="results-grid">
+
+  <div class="facts-card">
+    <p class="facts-eyebrow">{{ inp.gender }}, {{ inp.age }} yrs · {{ inp.height }} cm · {{ inp.weight }} kg</p>
+    <h1 class="facts-title">Diet Suggestion</h1>
+    <p class="facts-sub">{{ inp.diet_label }} · {{ inp.activity_label }}</p>
+
+    <div class="rule-thick"></div>
+
+    <div class="facts-row facts-row-calories">
+      <span>Daily Calories</span>
+      <span class="facts-value">{{ d.calories }} kcal</span>
+    </div>
+
+    <div class="rule-thick"></div>
+
+    <div class="facts-row">
+      <span>Protein</span>
+      <span class="facts-value" style="color: var(--accent-protein)">{{ d.protein }} g</span>
+    </div>
+    <div class="rule-thin"></div>
+    <div class="facts-row">
+      <span>Carbohydrate</span>
+      <span class="facts-value" style="color: var(--accent-carbs)">{{ d.carbs }} g</span>
+    </div>
+    <div class="rule-thin"></div>
+    <div class="facts-row">
+      <span>Fat</span>
+      <span class="facts-value" style="color: var(--accent-fat)">{{ d.fat }} g</span>
+    </div>
+    <div class="rule-thin"></div>
+    <div class="facts-row">
+      <span>Fiber</span>
+      <span class="facts-value" style="color: var(--accent-fiber)">{{ d.fiber }} g</span>
+    </div>
+
+    <div class="rule-thin"></div>
+
+    <div class="facts-row facts-row-muted">
+      <span>BMR</span>
+      <span>{{ d.bmr }} kcal</span>
+    </div>
+    <div class="facts-row facts-row-muted">
+      <span>TDEE (maintenance)</span>
+      <span>{{ d.tdee }} kcal</span>
+    </div>
+  </div>
+
+  <div class="workout-card">
+    <p class="facts-eyebrow">{{ inp.workout_type }} · {{ inp.diet_label }}</p>
+    <h2 class="facts-title facts-title-sm">5-Day Split</h2>
+    <p class="facts-sub">Intensity: {{ w.intensity }} · Rest between sets: {{ w.rest }}</p>
+
+    <div class="day-list">
+      {% for day, exercises in w.days.items() %}
+      <details class="day-block" {% if loop.first %}open{% endif %}>
+        <summary>{{ day }}</summary>
+        <table class="ex-table">
+          <thead>
+            <tr><th>Exercise</th><th>Sets</th><th>Reps</th></tr>
+          </thead>
+          <tbody>
+            {% for name, sets, reps in exercises %}
+            <tr>
+              <td>{{ name }}</td>
+              <td>{{ sets }}</td>
+              <td>{{ reps }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </details>
+      {% endfor %}
+    </div>
+
+    <div class="rule-thin"></div>
+    <p class="notes-title">Recovery notes</p>
+    <ul class="notes-list">
+      {% for note in w.notes %}
+      <li>{{ note }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+</section>
+
+<div class="actions-row">
+  <a href="{{ url_for('profile') }}" class="btn-secondary">Recalculate</a>
+</div>
+{% endblock %}
